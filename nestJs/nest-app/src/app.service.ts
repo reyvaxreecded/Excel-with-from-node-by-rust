@@ -32,7 +32,7 @@ export class AppService {
   private async initializeRustModule() {
     try {
       // Chemin du module Rust
-      const rustAddonDir = join(process.cwd(), '../rust-addon');
+      const rustAddonDir = join(process.cwd(), '../../rust-addon');
       const npmDir = join(rustAddonDir, 'npm');
 
       // Créer le répertoire npm s'il n'existe pas

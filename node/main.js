@@ -6,7 +6,7 @@ let rustCalamine; // Changé pour correspondre à la variable utilisée plus loi
 
 try {
   // Chemin vers la bibliothèque compilée
-  const rustAddonDir = path.join(__dirname, "rust-addon");
+  const rustAddonDir = path.join(__dirname, "../rust-addon");
   const npmDir = path.join(rustAddonDir, "npm");
 
   // Créer le répertoire npm s'il n'existe pas
