@@ -1,0 +1,10 @@
+{
+  "name": "rust-calamine",
+  "version": "0.1.0",
+  "main": "npm/index.js",
+  "types": "npm/index.d.ts",
+  "napi": {
+    "name": "excel-manager",
+    "triples": {}
+  }
+}
