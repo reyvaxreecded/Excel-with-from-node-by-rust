@@ -1,0 +1,22 @@
+[package]
+name = "excel_manager"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+calamine = "0.27.0"
+regex = "1.11.1"
+umya-spreadsheet = "2.3.0"
+napi = { version = "2.12.2", features = ["napi4"] }
+napi-derive = "2.12.2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[build-dependencies]
+napi-build = "2.0.1"
+
+[lib]
+name = "excel_manager"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+

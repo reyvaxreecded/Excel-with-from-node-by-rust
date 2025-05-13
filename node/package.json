@@ -1,0 +1,14 @@
+{
+  "name": "rust-calamine-node",
+  "version": "1.0.0",
+  "description": "Utilisation de calamine (Rust) dans Node.js via napi-rs",
+  "main": "main.js",
+  "scripts": {
+    "build": "cd rust-addon && cargo build --release",
+    "install": "npm run build",
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.3.1"
+  }
+}
