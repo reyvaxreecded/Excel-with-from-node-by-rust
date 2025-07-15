@@ -64,7 +64,7 @@ try {
   }
 
   // Charger le module
-  rustCalamine = require("./rust-addon");
+  rustCalamine = require("../rust-addon");
   console.log("Module Rust chargé avec succès");
 
   // Afficher les fonctions disponibles pour le débogage
@@ -76,7 +76,7 @@ try {
     "src",
     "assets",
     "excel_files",
-    "payplan2025VN.xlsx"
+    "Cotation-Parc-Batterie-01072025.xlsx"
   );
   if (!fs.existsSync(excelFilePath)) {
     console.error(
@@ -95,8 +95,8 @@ try {
   }
 
   try {
-    const data = rustCalamine.read_excel_file("payplan2025VN.xlsx");
-    console.log("Data :", data);
+    const data = rustCalamine.read_excel_file("Cotation-Parc-Batterie-01072025.xlsx", "Feuil1");
+    console.log("Data :", data); // Affiche la première ligne de données
   } catch (error) {
     console.error("Erreur lors de la lecture du fichier Excel :", error);
   }

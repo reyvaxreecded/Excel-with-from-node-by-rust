@@ -1,5 +1,8 @@
 declare module 'excel-manager-native' {
-  export function read_excel_file(fileName: string): string[][];
+  export function read_excel_file(
+    fileName: string,
+    sheetName: string,
+  ): string[][];
   export function upsert_row(
     fileName: string,
     sheetName: string,

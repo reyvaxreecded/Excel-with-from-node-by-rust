@@ -19,15 +19,14 @@ impl UpdateCell {
     }
 }
 
-const BASE_PATH: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/src/assets/excel_files/");
+
 
 #[napi(js_name = "read_excel_file")]
-pub fn read_excel_file(file_name: String) -> Result<Vec<Vec<String>>, napi::Error> {
-    let path = format!("{}{}", BASE_PATH, file_name);
-    println!("Reading Excel file: {}", path);
-    println!("Path exists? {}", Path::new(&path).exists());
+pub fn read_excel_file(path_to_file: String, sheet_name: String) -> Result<Vec<Vec<String>>, napi::Error> {
+    println!("Reading Excel file: {}", path_to_file);
+    println!("Path exists? {}", Path::new(&path_to_file).exists());
 
-    let mut workbook = match open_workbook_auto(&path) {
+    let mut workbook = match open_workbook_auto(&path_to_file) {
         Ok(workbook) => workbook,
         Err(e) => {
             println!("Error opening workbook: {}", e);
@@ -40,9 +39,8 @@ pub fn read_excel_file(file_name: String) -> Result<Vec<Vec<String>>, napi::Erro
     println!("Workbook opened successfully.");
     let sheet_names = workbook.sheet_names().to_vec();
     println!("Sheet names: {:?}", sheet_names);
-    let sheet_name = &sheet_names[0];
     println!("Reading sheet: {}", sheet_name);
-    let range = workbook.worksheet_range(sheet_name).map_err(|e| {
+    let range = workbook.worksheet_range(&sheet_name).map_err(|e| {
         napi::Error::new(
             napi::Status::GenericFailure,
             format!("Error reading sheet: {}", e),
@@ -61,21 +59,20 @@ pub fn read_excel_file(file_name: String) -> Result<Vec<Vec<String>>, napi::Erro
 
 #[napi(js_name = "upsert_row")]
 pub fn upsert_row(
-    file_name: String,
+    path_to_file: String,
     sheet_name: String,
     row: Vec<UpdateCell>,
 ) -> Result<(), napi::Error> {
-    let path = format!("{}{}", BASE_PATH, file_name);
-    println!("Upserting row in Excel file: {}", path);
+    println!("Upserting row in Excel file: {}", &path_to_file);
 
-    if !Path::new(&path).exists() {
+    if !Path::new(&path_to_file).exists() {
         return Err(napi::Error::new(
             napi::Status::GenericFailure,
-            format!("File not found: {}", path),
+            format!("File not found: {}", &path_to_file),
         ));
     }
 
-    let mut book = reader::xlsx::read(&path).map_err(|e| {
+    let mut book = reader::xlsx::read(&path_to_file).map_err(|e| {
         napi::Error::new(
             napi::Status::GenericFailure,
             format!("Error reading sheet: {}", e),
@@ -162,7 +159,7 @@ pub fn upsert_row(
         }
     }
 
-    writer::xlsx::write(&book, &path).map_err(|e| {
+    writer::xlsx::write(&book, &path_to_file).map_err(|e| {
         napi::Error::new(
             napi::Status::GenericFailure,
             format!("Error writing to file: {}", e),
